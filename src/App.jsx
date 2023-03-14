@@ -12,7 +12,7 @@ function App() {
   const fetch = GSheetReader;
   return (
     <div className="App">
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter>
         <Routes>
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/training" element={<Training />} />

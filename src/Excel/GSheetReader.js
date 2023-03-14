@@ -3,7 +3,7 @@ import * as dotenv from 'dotenv'
 // const GSheetReader = require('g-sheets-api')
 const process = {}
 const options = {
-  apiKey: process.env.GSheetReader,
+  apiKey: 'AIzaSyD0BNYkfXbPuZzgMuJi7IDEouYP4LPJ46U',
   sheetId: '1ydjnm6UyE5pm5-onpFT-w3KdBSNzxU-fsj6KAvtb9mA',
   sheetNumber: 1,
   sheetName: 'Sheet1', // if sheetName is supplied, this will take precedence over sheetNumber
@@ -22,8 +22,8 @@ GSheetReader(options, results => {
     item.options = item.options.split(',');
     data.push(item);
   })
-  console.log(data);
+  // console.log(data);
 }, error => {
-  console.log(error);
+  // console.log(error);
 })
 export default data;

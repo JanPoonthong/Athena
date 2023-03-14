@@ -3,6 +3,10 @@ import "./text_game.css";
 import { scenesFromFile } from "./scenes.js";
 
 let scenes = JSON.parse(localStorage.getItem("data"));
+// let options = scenes[questionSceneFromLocalStorage].option.split(",");
+
+// console.log(obj)
+
 if (scenes !== null) {
   console.log("local storage");
 } else {
@@ -16,8 +20,26 @@ const StoryBased = () => {
   const [start, setStart] = useState(true);
   const [next, setNext] = useState(false);
   const [buttonColor, setButtonColor] = useState("");
+  const optionsInArray = [];
 
-  console.log(scenes[nextSceneCount]);
+  if (scenes[nextSceneCount].scene === "question") {
+    let arraySplit = []
+    let options = scenes[nextSceneCount].option.split("\\");
+    options.forEach((x, i) => {
+     arraySplit.push(x.split("@"));
+    });
+
+    for (let i = 0; i < arraySplit.length; i++) {
+      const obj = {
+        option: arraySplit[i][0],
+        goToQuestionSceneID: arraySplit[i][1],
+        point: arraySplit[i][2],
+      };
+      optionsInArray.push(obj);
+    }
+  }
+
+  console.log(optionsInArray);
 
   // Increase Progress bar
   useEffect(() => {
@@ -161,38 +183,24 @@ const StoryBased = () => {
                         </p>
                       </div>
                       <form id="submitform">
-                        <div className="input_container">
-                          <input type="radio" id="1" name="radio" />
-                          <label
-                            onClick={() =>
-                              submitAnswer(
-                                scenes[nextSceneCount]
-                                  .goToQuestionSceneIDOption1,
-                                scenes[nextSceneCount].pointOption1
-                              )
-                            }
-                            className="correctanswer"
-                            htmlFor="1"
-                          >
-                            1. {scenes[nextSceneCount].option1}
-                          </label>
-                        </div>
-                        <div className="input_container">
-                          <input type="radio" id="2" name="radio" />
-                          <label
-                            onClick={() =>
-                              submitAnswer(
-                                scenes[nextSceneCount]
-                                  .goToQuestionSceneIDOption2,
-                                scenes[nextSceneCount].pointOption2
-                              )
-                            }
-                            className="correctanswer"
-                            htmlFor="2"
-                          >
-                            2. {scenes[nextSceneCount].option2}
-                          </label>
-                        </div>
+                        {optionsInArray.map((element, index) => (
+                          <div key={index} className="input_container">
+                            <input type="radio" id={index} name="radio" />
+                            <label
+                              onClick={() =>
+                                submitAnswer(
+                                  scenes[nextSceneCount]
+                                    .goToQuestionSceneIDOption1,
+                                  scenes[nextSceneCount].pointOption1
+                                )
+                              }
+                              className="correctanswer"
+                              htmlFor={index}
+                            >
+                              {index + 1}. {element.option}
+                            </label>
+                          </div>
+                        ))}
                       </form>
                     </div>
                   </>
